@@ -105,4 +105,5 @@ services:
 
 networks:
   dockeasy:
+    name: dockeasy
     driver: bridge
