@@ -1,6 +1,4 @@
-
 services:
-
   nginx:
     image: kauech/nginx:openssl
     container_name: dockeasy-nginx
@@ -14,8 +12,12 @@ services:
       - "${DOCKEASY_ELECTRUM_SERVER_TLS_PORT:-50002}:50002"
 
     environment:
-      NGINX_DOMAINS: "*.${DOCKEASY_DOMAIN:-local} ${DOCKEASY_DOMAIN:-local} localhost *.localhost *.onion *.${DOCKEASY_PKDNS_PUBKEY:-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx} ${DOCKEASY_PKDNS_PUBKEY:-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx}"
-      
+      NGINX_DOMAINS:
+        "*.${DOCKEASY_DOMAIN:-local} ${DOCKEASY_DOMAIN:-local} localhost
+        *.localhost *.onion
+        *.${DOCKEASY_PKDNS_PUBKEY:-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx}
+        ${DOCKEASY_PKDNS_PUBKEY:-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx}"
+
       NGINX_FORCE_HTTPS: ${DOCKEASY_NGINX_FORCE_HTTPS:-true}
 
       NGINX_STREAM_SERVER_ELECTRS: |
@@ -41,7 +43,7 @@ services:
         bookstack         http://bookstack:80;
         blinko            http://blinko-website:1111;
         docmost           http://docmost:3000;
- 
+
         s3                http://minio:9000;
         minio             http://minio-console:9090;
         affine            http://affine:3010;
@@ -94,7 +96,7 @@ services:
         silverbullet      http://silverbullet:3000;
 
         default           ${DOCKEASY_NGINX_DEFAULT_TARGET:-http://nginx-proxy-manager:80};
-    
+
     volumes:
       - "./data/letsencrypt:/etc/letsencrypt"
 
@@ -103,4 +105,4 @@ services:
 
 networks:
   dockeasy:
-    external: true
+    driver: bridge
